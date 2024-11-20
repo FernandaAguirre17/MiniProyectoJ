@@ -2,13 +2,9 @@
 // ID PREGUNTA 
 
 import { Schema, model } from "mongoose";
+import { IOptions } from "../GlobalTypes";
 
-interface Options { 
-    title: string; 
-    questionId: Schema.Types.ObjectId | string;
-}
-
-const OptionSchema = new Schema<Options>({
+const OptionSchema = new Schema<IOptions>({
     title:{
         type: String,
         required: true

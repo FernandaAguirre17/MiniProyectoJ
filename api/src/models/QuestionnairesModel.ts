@@ -3,14 +3,9 @@
 // ID USUARIOS 
 
 import { Schema, model } from "mongoose";
+import { Questionnaires } from "../GlobalTypes";
 
-interface CreateQu {
-    title: string;
-    description: string;
-    UsersId: Schema.Types.ObjectId | string; 
-}
-
-const CreateQSchema = new Schema<CreateQu>({
+const QuestionnairesSchema = new Schema<Questionnaires>({
     title:{
         type: String,
         required: true
@@ -26,4 +21,4 @@ const CreateQSchema = new Schema<CreateQu>({
     },
 })
 
-export const CreateQModel = model ("creates", CreateQSchema);
+export const QuestionnairesModel = model ("questionnaires", QuestionnairesSchema);
