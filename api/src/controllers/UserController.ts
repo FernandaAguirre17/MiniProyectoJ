@@ -50,8 +50,27 @@ Promise<any> => {
 
 export const singin = async (req:Request, res:Response):Promise<any> => {
     //correo y contraseña
+
     //verificar que el usuario existe
-    const user = await UserModel.findOne({email:req.body.email, password:req.body.password});
+    /*    const user = await UserModel.findOne({email:req.body.email, password:req.body.password}); */
     //si no existe devolver un error
-    //si existe devolver token 
+    //si existe devolver token
+        try {
+            const user = await UserModel.findOne({email:req.body.email, password:req.body.password})
+            
+           if(!user){
+            res.status(400).json({
+                msg: "No hay coincidencias en el sistema",
+            })
+        } 
+           const token = jwt.sign(JSON.stringify(user),"pocoyo");
+           res.status(200).json({msg: "Sesion iniciada conexito", token})
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                msg:"Hubo un error al iniciar sesion"
+            })
+        }
+    
 }
+    
