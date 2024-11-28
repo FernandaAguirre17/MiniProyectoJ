@@ -5,6 +5,7 @@ export const Header = () => {
     const user = JSON.parse(localStorage.user);
 
     const logout = () => {
+        const user = localStorage.user ? JSON.parse(localStorage.user ) : undefined;
         localStorage.clear()
         window.location.href = "/"
     }
