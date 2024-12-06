@@ -8,7 +8,7 @@ export interface IUser{
     rol:"administrator" | "client";
 }
 
-export interface Questionnaires {
+export interface IQuestionnaires {
     title: string;
     description: string;
     UsersId: Schema.Types.ObjectId | string; 

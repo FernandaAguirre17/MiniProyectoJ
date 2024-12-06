@@ -1,22 +1,26 @@
 import React, { useState } from 'react'
 import { Card, Container, Form, Row, Col, Button, InputGroup, CloseButton, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import { AnwerQuestionnaire } from './components/AnwerQuestionnaire';
+import axios from "axios";
 
 export const CreateQuestionnaire = () => {
 
     const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+    const defaultQuestion = {
+        title: "Pregunta sin titulo",
+        type: "radio",
+        options: ["Opción 1"],
+        isMandatory: false,
+    }
 
     const [createQuestionnaire, setCreateQuestionnaire] = useState({
         title: "Cuestionario vacio",
         description: "Descripcion simple",
         questions: [
-            {
-                title: "Pregunta sin titulo",
-                type: "radio",
-                options: ["Opción 1"],
-                isMandatory: false,
-            }
-        ]
+            defaultQuestion
+        ],
+        userId:JSON.parse(localStorage.user)._id
+
     });
 
     const onChangeTitle = (e) => {
@@ -30,7 +34,7 @@ export const CreateQuestionnaire = () => {
         const data = createQuestionnaire;
         data.questions[index][e.target.name] = e.target.value;
         setCreateQuestionnaire({ ...data })
-    }
+    };
     const addOption = (index) => {
         const data = createQuestionnaire;
         data.questions[index].options.push(`Opcion ${data.questions[index].options.length + 1}`)
@@ -39,12 +43,8 @@ export const CreateQuestionnaire = () => {
 
     const addQuestion = () => {
         const data = createQuestionnaire;
-        data.questions.push({
-            title: "Pregunta sin titulo",
-            type: "radio",
-            options: ["Opción 1"]
-        })
-        setCreateQuestionnaire({ ...data })
+        data.questions.push(defaultQuestion)
+        setCreateQuestionnaire({ ...data });
     };
 
     const deleteOption = (iq, io) => {
@@ -55,13 +55,18 @@ export const CreateQuestionnaire = () => {
     }
     const deleteQuestion = (iq) => {
         const data = createQuestionnaire;
-        const filteredQuestions = data.questions.filter((_, i) => i !== iq)
+        const filteredQuestions = data.questions.filter((_, i) => i !== iq);
         data.questions = filteredQuestions;
         setCreateQuestionnaire({ ...data });
     }
 
-    const sendData = () => {
-        console.log(createQuestionnaire);
+    const sendData = async () => {
+        try {
+            await axios.post("http://localhost:4000/questionnaire/create", createQuestionnaire)
+            alert("Cuestionario creado con exito")
+        } catch (error) {
+            alert("Todos tienen 10 por sonso yo >:C")
+        }
     }
 
     const onChangeOptionTitle = (e,iq,io)=>{

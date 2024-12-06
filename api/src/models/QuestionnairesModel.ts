@@ -3,9 +3,9 @@
 // ID USUARIOS 
 
 import { Schema, model } from "mongoose";
-import { Questionnaires } from "../GlobalTypes";
+import { IQuestionnaires } from "../GlobalTypes";
 
-const QuestionnairesSchema = new Schema<Questionnaires>({
+const QuestionnairesSchema = new Schema<IQuestionnaires>({
     title:{
         type: String,
         required: true
